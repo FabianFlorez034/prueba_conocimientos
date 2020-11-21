@@ -1,0 +1,142 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+    <div class="spacer"></div>
+    <span>Configuración</span>
+    <div class="spacer"></div>
+    <span>Nueva factura</span>
+    <div class="spacer"></div>
+    <span>Admin facturas</span>
+    <div class="spacer"></div>
+    <span>Reporte ventas</span>
+    <div class="spacer"></div>
+    <span>Productos</span>
+    <div class="spacer"></div>
+    <span>Clientes</span>
+    <div class="spacer"></div>
+    <span>Usuarios</span>
+    <div class="spacer"></div>
+    <span>Cerrar sesión</span>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+</div>
+
+<div class="content" role="main">
+
+
+    <div class="content-cards">
+        <div class="card">
+
+            <div class="head">
+                <h6>Datos factura</h6>
+            </div>
+            <div class="body-card">
+
+                <form [formGroup]="formClient">
+                    <div class="form-group row justify-between">
+                        <label for="inputCliente" class="col-sm-6 col-form-label">Identificación</label>
+                        <div class="col-sm-6">
+                            <input formControlName="clientId" type="text " class="form-control " id="inputCliente " (blur)="getClient()" (keydown.enter)="getClient()">
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-between ">
+                        <label for="vendedor " class="col-sm-6 col-form-label ">Cliente</label>
+                        <div class="col-sm-6 ">
+                            <input formControlName="nameClient" type="text " readonly class="form-control ">
+
+                        </div>
+                    </div>
+
+
+                </form>
+
+                <h5 class="text-center ">Adicionar productos</h5>
+                <br>
+                <form [formGroup]="formFiltro ">
+                    <div class="form-group row justify-between ">
+                        <div class="col-sm-8 ">
+                            <input type="text " class="form-control " formControlName="producto" placeholder="Leche... ">
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <div class="scroll">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col ">Producto</th>
+                                <th scope="col ">Cantidad</th>
+                                <th scope="col ">Stock</th>
+                                <th scope="col ">Precio</th>
+                                <th scope="col ">Agregar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of productosFiltrados; let index=index ">
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <input type="number " [(ngModel)]="cantAux[index]" class="form-control ">
+                                </td>
+                                <td>{{item.stock}}</td>
+                                <td>
+                                    {{item.unitValue}}
+                                </td>
+
+                                <td>
+                                    <button type="button " class="btn btn-primary " (click)="agregarItem(cantAux[index],item, cantAux[index] * item.unitValue) ">->
+              </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="card ">
+            <div class="head ">
+                <h6>Detalle factura</h6>
+            </div>
+            <div class="body-card scroll-detalle">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th scope="col ">CODIGO</th>
+                            <th scope="col ">CANT.</th>
+                            <th scope="col ">DESCRIPCION</th>
+                            <th scope="col text-right ">PRECIO UNIT.</th>
+                            <th scope="col text-right ">PRECIO TOTAL</th>
+                            <th scope="col "></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of factura, let index=index ">
+                            <td>{{item.code}}</td>
+                            <td>{{item.cant}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.unitValue}}</td>
+                            <td>{{item.precioTotal}}</td>
+                            <td>
+                                <button type="button " class="btn btn-danger " (click)="borrarItem(index) ">X</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="right">
+                <label>Total :</label><label>{{sum}}</label>
+            </div>
+
+            <div class="center">
+
+                <button type="button " class="btn btn-primary btn-my" (click)="createInvoice()">Facturar</button>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
